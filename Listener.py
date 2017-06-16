@@ -11,11 +11,12 @@ access_secret = '4SzUyUbAbTePDOjet7cw6AAOWwV41Wy9mZzdJV6TCpgYT'
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
-
+listy = []
 
  
 class MyListener(StreamListener):
 	def on_status(self, status):
+		listy.append(status)
 		print(status.created_at,status.text)
 
 class MySaver(StreamListener): 
@@ -32,5 +33,5 @@ class MySaver(StreamListener):
         print(status)
         return True
  
-twitter_stream = Stream(auth, MyListener())
+twitter_stream = Stream(auth, MySaver())
 twitter_stream.filter(track=['#bitcoin'])

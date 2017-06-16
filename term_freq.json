@@ -1,0 +1,280 @@
+{
+  "axes": [
+    {
+      "scale": "x",
+      "type": "x"
+    },
+    {
+      "scale": "y",
+      "type": "y"
+    }
+  ],
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {
+          "col": "data",
+          "idx": [
+            "#ethereum",
+            "#bitcoin"
+          ],
+          "val": 32
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#Securities",
+            "#Bitcoin"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#Cryptocurrency",
+            "#Securities"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "About",
+            "Equibit"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "@equibit",
+            "Learn"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#Blockchain",
+            "#Cryptocurrency"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "More",
+            "About"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "Equibit",
+            "gt"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "Learn",
+            "More"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "gt",
+            "https://t.co/BOBf6yipwJ"
+          ],
+          "val": 29
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#bitcoin",
+            "#blockchain"
+          ],
+          "val": 25
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#cryptocurrency",
+            "#blockchain"
+          ],
+          "val": 24
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#Bitcoin",
+            "https://t.co/b0s6PfW7noRT"
+          ],
+          "val": 24
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#blockchain",
+            "#ethereum"
+          ],
+          "val": 20
+        },
+        {
+          "col": "data",
+          "idx": [
+            "@insurextech",
+            "InsureX"
+          ],
+          "val": 20
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#ETH",
+            "#BTC"
+          ],
+          "val": 18
+        },
+        {
+          "col": "data",
+          "idx": [
+            "\u2026",
+            "@Vindyne8"
+          ],
+          "val": 17
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#ICO",
+            "#altcoins"
+          ],
+          "val": 16
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#BTC",
+            "\u2026"
+          ],
+          "val": 15
+        },
+        {
+          "col": "data",
+          "idx": [
+            "#bitcoin",
+            "#bitcoins"
+          ],
+          "val": 15
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "source": "table",
+      "transform": [
+        {
+          "keys": [
+            "data.idx"
+          ],
+          "type": "facet"
+        },
+        {
+          "type": "stats",
+          "value": "data.val"
+        }
+      ]
+    }
+  ],
+  "height": 500,
+  "legends": [],
+  "marks": [
+    {
+      "from": {
+        "data": "table",
+        "transform": [
+          {
+            "keys": [
+              "data.col"
+            ],
+            "type": "facet"
+          },
+          {
+            "height": "data.val",
+            "point": "data.idx",
+            "type": "stack"
+          }
+        ]
+      },
+      "marks": [
+        {
+          "properties": {
+            "enter": {
+              "fill": {
+                "field": "data.col",
+                "scale": "color"
+              },
+              "width": {
+                "band": true,
+                "offset": -1,
+                "scale": "x"
+              },
+              "x": {
+                "field": "data.idx",
+                "scale": "x"
+              },
+              "y": {
+                "field": "y",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "y2",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rect"
+        }
+      ],
+      "type": "group"
+    }
+  ],
+  "padding": "auto",
+  "scales": [
+    {
+      "domain": {
+        "data": "table",
+        "field": "data.idx"
+      },
+      "name": "x",
+      "range": "width",
+      "type": "ordinal",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "stats",
+        "field": "sum"
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height"
+    },
+    {
+      "domain": {
+        "data": "table",
+        "field": "data.col"
+      },
+      "name": "color",
+      "range": "category20",
+      "type": "ordinal"
+    }
+  ],
+  "width": 960
+}
