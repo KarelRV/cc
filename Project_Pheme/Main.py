@@ -1,6 +1,3 @@
-
-
-
 import tweepy
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -27,40 +24,52 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
+stream1 = "#AMJoy"
+stream2 = "#LeMans24"
+stream3 = "#ConFedCup"
 
-def add_customer2(created_at,hashtag,text,sentiment_cat,sentiment_score):
+
+
+
+def add_tweet(created_at,hashtag,text,sentiment_cat,sentiment_score):
 	import pymysql
 	import pymysql.cursors
 	import pandas as pd
 	# Connect to the database
-	connection = pymysql.connect(host='nabuproject.ch1ktyvsreco.eu-west-1.rds.amazonaws.com',
-	user='Admin',
-	password='Nabu2016!',
-	db='Brannas',
+	connection = pymysql.connect(host='pheme.cenvzddeh7ne.eu-west-1.rds.amazonaws.com',
+	user='PhemeUES528',
+	password='^d+L6s_yc<_TC%6',
+	db='Pheme',
 	charset='utf8mb4',
 	cursorclass=pymysql.cursors.DictCursor)
 	
 	with connection.cursor() as cursor:
 		# Read a single recor
-		sql = "insert into  tweets values(NULL,'{0}','{1}', '{2}', '{3}', '{4}',)".format(created_at,hashtag,text,sentiment_cat,sentiment_score)
+		sql = "insert into  tweets values(NULL,'{0}','{1}', '{2}', '{3}', '{4}')".format(created_at,hashtag,text,sentiment_cat,sentiment_score)
 		cursor.execute(sql)
 		connection.commit()
 	connection.close()
 
+
+
 def get_tweet_sentiment(tweet):
-    '''
-    Utility function to classify sentiment of passed tweet
-    using textblob's sentiment method
-    '''
-    # create TextBlob object of passed tweet text
-    analysis = TextBlob(clean_tweet(tweet))
-    # set sentiment
-    if analysis.sentiment.polarity > 0:
-        return 'positive',analysis.sentiment.polarity
-    elif analysis.sentiment.polarity == 0:
-        return 'neutral',analysis.sentiment.polarity
-    else:
-        return 'negative',analysis.sentiment.polarity
+	
+	if len(clean_tweet(tweet)) >= 10:
+		analysis = TextBlob(clean_tweet(tweet))
+		#print(analysis.detect_language())
+		#if analysis.detect_language() == 'en':
+		# set sentiment
+		if analysis.sentiment.polarity > 0:
+			return 'positive',analysis.sentiment.polarity
+		elif analysis.sentiment.polarity == 0:
+			return 'neutral',analysis.sentiment.polarity
+		else:
+			return 'negative',analysis.sentiment.polarity
+		#else:
+			#return 'poes',0.0
+	else:
+		return 'poes',0.0
+
 
 def clean_tweet(tweet):
     '''
@@ -101,35 +110,63 @@ def print_ratios(listy):
       "Neutral:{}%".format(100*(len(tweets) - len(ntweets) - len(ptweets))/len(tweets))
      )    
  
-class MyListener(StreamListener):
+class MyListener_s1(StreamListener):
     def on_status(self, status):
-        listy.append(status)
-        print_ratios(listy)
-        print(status.created_at)
+        #listy.append(status)
+        #print_ratios(listy)
+
         print(status.text)
-        print(get_tweet_sentiment(status.text)[0])
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+        	add_tweet(status.created_at,stream1,status.text.replace("'", ""),x,y)
     
     def on_error(self, status_code):
         if status_code == 420:
             #returning False in on_data disconnects the stream
             return False
         
+class MyListener_s2(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
 
-class MySaver(StreamListener): 
-    def on_status(self, data):
-        try:
-            with open('bitcoin.json', 'a') as f:
-                f.write(data.text)
-                return True
-        except BaseException as e:
-            print(str(e))
-        return True
+        print(status.created_at)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+        	add_tweet(status.created_at,stream2,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
+
+class MyListener_s3(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
+
+        print(status.created_at)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+        	add_tweet(status.created_at,stream3,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
  
-    def on_error(self, status):
-        #print(status)
-        return True
- 
-twitter_stream = Stream(auth, MyListener())
-twitter2_stream = Stream(auth, MyListener())
-twitter_stream.filter(track=['#bitcoin'], async=True)
-#twitter2_stream.filter(track=['#ethereum'], async=True)
+twitter_stream = Stream(auth, MyListener_s1())
+twitter2_stream = Stream(auth, MyListener_s2())
+twitter3_stream = Stream(auth, MyListener_s3())
+twitter_stream.filter(track=[stream1],async=True)
+twitter2_stream.filter(track=[stream2], async=True)
+twitter3_stream.filter(track=[stream3], async=True)
