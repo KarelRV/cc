@@ -28,7 +28,7 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
-temp_list = ["#bitcoin","#LeMans24","#ConFedCup"]
+temp_list = ["#bitcoin","#ethereum","#DASH"]
 stream1 = "#bitcoin"
 stream2 = "#LeMans24"
 stream3 = "#ConFedCup"
@@ -119,7 +119,6 @@ class MyListener_s1(StreamListener):
     def on_status(self, status):
         #listy.append(status)
         #print_ratios(listy)
-        print(MyListener_s1.filter)
         print(status.text)
         z = clean_tweet(status.text)
         #print(twitter_stream.track)
