@@ -11,7 +11,7 @@ import string
 import nltk
 import pandas as pd
 from nltk import bigrams 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from collections import defaultdict
 import re
 from contextlib import suppress
@@ -28,11 +28,12 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
-temp_list = ["#bitcoin","#ethereum","#DASH"]
+temp_list = ["#bitcoin","#LeMans24","#fathersday","#donaltrump","#indvpak"]
 stream1 = "#bitcoin"
 stream2 = "#LeMans24"
-stream3 = "#ConFedCup"
-
+stream3 = "#fathersday"
+stream4 = "#donaltrump"
+stream5 = "#indvpak"
 
 
 
@@ -132,7 +133,73 @@ class MyListener_s1(StreamListener):
             #returning False in on_data disconnects the stream
             return False
         
+class MyListener_s2(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
+        print(status.text)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+            add_tweet(status.created_at,stream2,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
 
+class MyListener_s3(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
+        print(status.text)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+            add_tweet(status.created_at,stream3,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
+
+class MyListener_s4(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
+        print(status.text)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+            add_tweet(status.created_at,stream4,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
+
+class MyListener_s5(StreamListener):
+    def on_status(self, status):
+        #listy.append(status)
+        #print_ratios(listy)
+        print(status.text)
+        z = clean_tweet(status.text)
+        #print(twitter_stream.track)
+        x = get_tweet_sentiment(status.text)[0]
+        y = get_tweet_sentiment(status.text)[1]
+        if x != 'poes':
+            add_tweet(status.created_at,stream5,status.text.replace("'", ""),x,y)
+    
+    def on_error(self, status_code):
+        if status_code == 420:
+            #returning False in on_data disconnects the stream
+            return False
 
 def start_stream(stream):
 	#while True:
@@ -145,13 +212,50 @@ def start_stream(stream):
 		#except tweepy.TweepError:
 		#	time.sleep(5)
 		#	pass
+def start_stream2(stream):
+    #while True:
+        #try:
+    with suppress(exceptions.ProtocolError):
+            twitter_stream = Stream(auth, MyListener_s2())
+            twitter_stream.filter(track=[stream],async=True)
+
+def start_stream3(stream):
+    #while True:
+        #try:
+    with suppress(exceptions.ProtocolError):
+            twitter_stream = Stream(auth, MyListener_s3())
+            twitter_stream.filter(track=[stream],async=True)
+
+def start_stream4(stream):
+    #while True:
+        #try:
+    with suppress(exceptions.ProtocolError):
+            twitter_stream = Stream(auth, MyListener_s4())
+            twitter_stream.filter(track=[stream],async=True)
+
+def start_stream5(stream):
+    #while True:
+        #try:
+    with suppress(exceptions.ProtocolError):
+            twitter_stream = Stream(auth, MyListener_s5())
+            twitter_stream.filter(track=[stream],async=True)
 
 threads = []
-
-for i in temp_list:
-    t = threading.Thread(target=start_stream, args = (i,))
-    threads.append(t)
-    t.start()
+t = threading.Thread(target=start_stream, args = (temp_list[0],))
+threads.append(t)
+t.start()
+t = threading.Thread(target=start_stream2, args = (temp_list[1],))
+threads.append(t)
+t.start()
+t = threading.Thread(target=start_stream3, args = (temp_list[2],))
+threads.append(t)
+t.start()
+t = threading.Thread(target=start_stream4, args = (temp_list[3],))
+threads.append(t)
+t.start()
+t = threading.Thread(target=start_stream5, args = (temp_list[4],))
+threads.append(t)
+t.start()
 
 #twitter2_stream = Stream(auth, MyListener_s2())
 #while True:
