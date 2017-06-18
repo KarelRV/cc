@@ -46,8 +46,8 @@ auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
 temp_list = ["#bitcoin","#ethereum","#dash","crypto currency"]
-stream1 = "#indvpak"
-stream2 = "#LeMans24"
+stream1 = "#bitcoin"
+stream2 = "#bitcoin"
 
 
 
