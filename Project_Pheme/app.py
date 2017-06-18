@@ -1,3 +1,7 @@
+from flask import Flask
+import os
+import socket
+#####
 import tweepy
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -18,28 +22,11 @@ from contextlib import suppress
 from urllib3 import exceptions
 import threading
 
-
-import os
-import yaml
-
-#direct = "/Users/user/"
-direct = "/home/ubuntu/"
-x_file = open(os.path.join(direct, "cred.yaml"), "r")
-print(os.path.join(direct, "cred.yaml"))
-docs = yaml.load(x_file)
-
-
-charset = docs["db"]["charset"]
-db = docs["db"]["db"]
-host = docs["db"]["host"]
-password = docs["db"]["password"]
-user = docs["db"]["user"]
-
-access_secret = docs["twitter"]["access_secret"]
-access_token = docs["twitter"]["access_token"]
-consumer_key = docs["twitter"]["consumer_key"]
-consumer_secret = docs["twitter"]["consumer_secret"]
  
+consumer_key = 'nYxXmA9B7MmpgRdQBzg9LZxCp'
+consumer_secret = 'cE5yAit3vEAIyQIyM69uGuSMAxjh9y8cPWXu7lyR8HF0EB02D4'
+access_token = '45810954-CGIPoVv7cSkYLG5XsXFXLv2B4p5yfLfg3uF7EFUcc'
+access_secret = '4SzUyUbAbTePDOjet7cw6AAOWwV41Wy9mZzdJV6TCpgYT'
  
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
@@ -59,11 +46,11 @@ def add_tweet(created_at,hashtag,text,sentiment_cat,sentiment_score):
 	import pymysql.cursors
 	import pandas as pd
 	# Connect to the database
-	connection = pymysql.connect(host=host,
-	user=user,
-	password=password,
-	db=db,
-	charset=charset,
+	connection = pymysql.connect(host='pheme.cenvzddeh7ne.eu-west-1.rds.amazonaws.com',
+	user='PhemeUES528',
+	password='^d+L6s_yc<_TC%6',
+	db='Pheme',
+	charset='utf8mb4',
 	cursorclass=pymysql.cursors.DictCursor)
 	
 	with connection.cursor() as cursor:
@@ -143,7 +130,7 @@ class MyListener_s1(StreamListener):
         x = get_tweet_sentiment(status.text)[0]
         y = get_tweet_sentiment(status.text)[1]
         if x != 'poes':
-        	add_tweet(status.created_at,stream5,status.text.replace("'", ""),x,y)
+        	add_tweet(status.created_at,"#trump",status.text.replace("'", ""),x,y)
     
     def on_error(self, status_code):
         if status_code == 420:
@@ -257,27 +244,20 @@ def start_stream5(stream):
             twitter_stream = Stream(auth, MyListener_s5())
             twitter_stream.filter(track=[stream],async=True)
 
-#threads = []
-#t = threading.Thread(target=start_stream, args = (temp_list[0],))
-#threads.append(t)
-#t.start()
-#t = threading.Thread(target=start_stream2, args = (temp_list[1],))
-#threads.append(t)
-#t.start()
-#t = threading.Thread(target=start_stream3, args = (temp_list[2],))
-#threads.append(t)
-#t.start()
-#t = threading.Thread(target=start_stream4, args = (temp_list[3],))
-#threads.append(t)
-#t.start()
-#t = threading.Thread(target=start_stream5, args = (temp_list[4],))
-#threads.append(t)
-#t.start()
-start_stream(stream5)
-#twitter2_stream = Stream(auth, MyListener_s2())
-#while True:
-#	twitter2_stream.filter(track=[stream2], async=True)
-#	
-#twitter3_stream = Stream(auth, MyListener_s3())
-#while True:
-#	twitter3_stream.filter(track=[stream3], async=True)
+
+# Connect to Redis
+########
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+
+
+
+    return "Hello World"
+
+if __name__ == "__main__":
+	stream = "#trump"
+	start_stream(stream)
+	app.run()
