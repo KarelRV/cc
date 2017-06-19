@@ -45,8 +45,8 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
-temp_list = ["#bitcoin","#ethereum","#dash","#litecoin"]
-stream1 = "#bitcoin"
+temp_list = ["#RailaOnLand","#uhuruto","#Kivumbi2017","#dash","#bitcoin"]
+stream1 = "#kenya"
 stream2 = "#bitcoin"
 
 
@@ -236,10 +236,10 @@ def start_stream2(stream3,stream4):
 
 
 threads = []
-t = threading.Thread(target=start_stream, args = (temp_list[0],temp_list[1],))
+t = threading.Thread(target=start_stream, args = (temp_list[0],temp_list[1],temp_list[2],))
 threads.append(t)
 t.start()
-t = threading.Thread(target=start_stream2, args = (temp_list[2],temp_list[3],))
+t = threading.Thread(target=start_stream2, args = (temp_list[3],temp_list[4],))
 threads.append(t)
 t.start()
 
