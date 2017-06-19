@@ -216,7 +216,7 @@ class MyListener_s5(StreamListener):
             #returning False in on_data disconnects the stream
             return False
 
-def start_stream(stream1,stream2):
+def start_stream(stream1,stream2, stream3):
 	#while True:
 		#try:
 	with suppress(exceptions.ProtocolError):
