@@ -45,8 +45,8 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 listy = []
-temp_list = ["#RailaOnLand","#uhuruto","#Kivumbi2017","#dash","#bitcoin"]
-stream1 = "#kenya"
+temp_list = ["#bitcoin","#dash","#ether","#cryptocurrency","#ripple"]
+stream1 = "#bitcoin"
 stream2 = "#bitcoin"
 
 
